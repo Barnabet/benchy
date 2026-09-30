@@ -134,7 +134,10 @@ function writeHash() {
   if (state.search) params.set("q", state.search);
   if (state.sort && state.sort.key !== state.metric) params.set("sort", `${state.sort.key}:${state.sort.dir === 1 ? "asc" : "desc"}`);
   const hash = params.toString();
-  history.replaceState(null, "", hash ? `#${hash}` : location.pathname + location.search);
+  // Best effort: some embedding frames refuse history changes, and the view still works without them.
+  try {
+    history.replaceState(null, "", hash ? `#${hash}` : location.pathname + location.search);
+  } catch {}
 }
 
 // ---------- controls ----------
