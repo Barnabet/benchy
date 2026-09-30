@@ -1,5 +1,5 @@
 const SVG_NS = "http://www.w3.org/2000/svg";
-const DEFAULT_METRIC = "evaluations.artificial_analysis_intelligence_index";
+const DEFAULT_METRIC = "eci";
 const PROVIDERS = ["anthropic", "google", "openai"];
 const SHAPES = { anthropic: "circle", google: "square", openai: "diamond" };
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -610,9 +610,7 @@ async function main() {
   if (!metricDef(state.metric)) state.metric = data.metrics[0].key;
   readHash();
 
-  const meta = [`fetched ${formatDate(parseDate(data.fetchedAt))}`];
-  if (data.apiMeta?.intelligence_index_version) meta.push(`Intelligence Index v${data.apiMeta.intelligence_index_version}`);
-  $("data-meta").textContent = ` · ${meta.join(" · ")}`;
+  $("data-meta").textContent = ` · fetched ${formatDate(parseDate(data.fetchedAt))}`;
 
   $("app").hidden = false;
   buildControls();

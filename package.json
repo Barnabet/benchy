@@ -2,12 +2,13 @@
   "name": "benchy",
   "private": true,
   "type": "module",
-  "description": "Anthropic, Google and OpenAI model benchmarks from Artificial Analysis, displayed my way",
+  "description": "Anthropic, Google and OpenAI model benchmarks from Epoch AI, displayed my way",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "fetch": "node --env-file-if-exists=.env scripts/fetch.mjs",
-    "serve": "node scripts/serve.mjs"
+    "fetch": "node scripts/fetch.mjs",
+    "serve": "node scripts/serve.mjs",
+    "test": "node --test"
   }
 }

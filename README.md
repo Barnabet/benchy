@@ -1,28 +1,31 @@
 # benchy
 
-Benchmark scores for every Anthropic, Google and OpenAI model, past and present, pulled from the [Artificial Analysis](https://artificialanalysis.ai) data API and shown on a dashboard I control.
+Benchmark scores for every Anthropic, Google and OpenAI model, past and present, pulled from [Epoch AI's benchmarking hub](https://epoch.ai/benchmarks) and shown on a dashboard I control.
 
 No dependencies: Node 22+ for the scripts, plain HTML/CSS/JS with hand-drawn SVG for the site.
 
 ## Setup
 
-1. Get a free API key from Artificial Analysis.
-2. `cp .env.example .env` and paste the key in.
-3. `npm run fetch` pulls every model and writes:
-   - `data/snapshots/YYYY-MM-DD.json`: the raw API response, all creators, one file per day. Scores and index versions change over time, so these add up to a history.
-   - `site/data/models.json`: Anthropic, Google and OpenAI models only, normalized for the site.
-4. `npm run serve` and open http://localhost:8000.
+1. `npm run fetch` downloads Epoch's export (`benchmark_data.zip`, no key needed) and writes `site/data/models.json`: Anthropic, Google and OpenAI models only, normalized for the site.
+2. `npm run serve` and open http://localhost:8000.
+3. `npm test` runs the tests for the CSV and zip readers and the normalizing step.
 
-The free tier allows roughly 100 requests a day, and one fetch uses one request per page of 200 models.
+Epoch's export already holds every past model and score, so there are no local snapshots; run the fetch again to pick up new models.
+
+## The data
+
+- **One row per setting.** Epoch scores each reasoning setting on its own, so "Claude Sonnet 5.5 (max)" and "Claude Sonnet 5.5 (low)" are separate rows. When Epoch has scored a setting more than once (different scaffolds, reruns), the best run counts.
+- **ECI**, the Epoch Capabilities Index, is the default metric. Epoch computes it per model rather than per setting, so every setting of a model shows the same value.
+- **Benchmarks** come from Epoch's `benchmark_metadata.csv`, which names each benchmark's file, score column and scale; scores are shown as percentages. Benchmarks Epoch has replaced with a newer version are grouped under "Superseded".
 
 ## The dashboard
 
-- **Metric picker** covering whatever the API returns: the Intelligence, Coding and Agentic indices, individual benchmarks, price and speed. Fields the fetch script doesn't know about still show up with a generated label.
+- **Metric picker**: ECI and every benchmark with at least one Anthropic, Google or OpenAI score, most widely run first.
 - **Best per provider**: each provider's top model on the chosen metric, plus which provider leads.
-- **Timeline**: every model plotted at its release date, with a step line tracking each provider's best so far. Prices use a log scale.
+- **Timeline**: every model plotted at its release date, with a step line tracking each provider's best so far.
 - **Table**: every model and metric, sortable by any column.
 - **Filters** for provider, release window and name search. They apply to everything on the page and are saved in the URL, so a view can be bookmarked.
 
-To add more model creators, edit `CREATORS` in `scripts/fetch.mjs`, and `PROVIDERS`/`SHAPES` in `site/app.js` plus a color token in `site/styles.css`.
+To add more model creators, edit `CREATORS` in `scripts/lib/epoch.mjs`, and `PROVIDERS`/`SHAPES` in `site/app.js` plus a color token in `site/styles.css`.
 
-Data © Artificial Analysis, which requires attribution when using its free API. The site footer links back to it.
+Data: Epoch AI, ‘Capabilities & benchmarking’, published at epoch.ai under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The site footer credits it.
