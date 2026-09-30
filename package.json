@@ -1,0 +1,13 @@
+{
+  "name": "benchy",
+  "private": true,
+  "type": "module",
+  "description": "Anthropic, Google and OpenAI model benchmarks from Artificial Analysis, displayed my way",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "fetch": "node --env-file-if-exists=.env scripts/fetch.mjs",
+    "serve": "node scripts/serve.mjs"
+  }
+}

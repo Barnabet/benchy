@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Benchy</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="page-header">
+    <div>
+      <h1>Benchy</h1>
+      <p class="subtitle">Anthropic, Google and OpenAI models on Artificial Analysis benchmarks</p>
+    </div>
+    <button id="theme-toggle" class="ghost-button" type="button" aria-label="Toggle dark mode">Dark</button>
+  </header>
+
+  <main id="app" hidden>
+    <section class="filters" aria-label="Filters">
+      <label class="field">
+        <span>Metric</span>
+        <select id="metric"></select>
+      </label>
+      <label class="field">
+        <span>Released</span>
+        <select id="range">
+          <option value="all">All time</option>
+          <option value="24">Last 24 months</option>
+          <option value="12">Last 12 months</option>
+          <option value="6">Last 6 months</option>
+        </select>
+      </label>
+      <div class="field">
+        <span id="providers-label">Providers</span>
+        <div id="providers" class="chips" role="group" aria-labelledby="providers-label"></div>
+      </div>
+      <label class="field grow">
+        <span>Search</span>
+        <input id="search" type="search" placeholder="Filter models, e.g. sonnet" autocomplete="off">
+      </label>
+    </section>
+
+    <section id="tiles" class="tiles" aria-label="Best model per provider"></section>
+
+    <section class="card">
+      <div class="card-head">
+        <div>
+          <h2 id="chart-title"></h2>
+          <p class="card-sub" id="chart-sub"></p>
+        </div>
+        <div id="legend" class="legend"></div>
+      </div>
+      <div id="chart-wrap" class="chart-wrap">
+        <svg id="chart" tabindex="0" role="img"></svg>
+        <div id="tooltip" class="tooltip" hidden></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <div>
+          <h2>All models</h2>
+          <p class="card-sub" id="table-sub"></p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="table">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <section id="empty" class="card empty" hidden>
+    <h2>No data yet</h2>
+    <p>Run <code>npm run fetch</code> with <code>AA_API_KEY</code> set to pull the latest models from Artificial Analysis, then reload.</p>
+    <p class="card-sub" id="empty-detail"></p>
+  </section>
+
+  <footer class="page-footer">
+    Data from <a href="https://artificialanalysis.ai" target="_blank" rel="noopener">Artificial Analysis</a><span id="data-meta"></span>
+  </footer>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
